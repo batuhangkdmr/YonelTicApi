@@ -25,7 +25,7 @@ namespace YonelTicApi
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "Lütfen 'Bearer {token}' formatýnda token girin.",
+                    Description = "LÃ¼tfen 'Bearer {token}' formatÃ½nda token girin.",
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
@@ -79,11 +79,18 @@ namespace YonelTicApi
 
 
             // Cloudinary Service
-            builder.Services.AddSingleton(new CloudinaryService(
-                builder.Configuration["Cloudinary:CloudName"] ?? "",
-                builder.Configuration["Cloudinary:ApiKey"] ?? "",
-                builder.Configuration["Cloudinary:ApiSecret"] ?? ""
-            ));
+     //       builder.Services.AddSingleton(new CloudinaryService(
+           //     builder.Configuration["Cloudinary:CloudName"] ?? "",
+           //     builder.Configuration["Cloudinary:ApiKey"] ?? "",
+         //       builder.Configuration["Cloudinary:ApiSecret"] ?? ""
+       //     ));
+                 var cloudinarySettings = builder.Configuration.GetSection("Cloudinary");
+     builder.Services.AddSingleton(new CloudinaryService(
+         cloudinarySettings["CloudName"] ?? "",
+         cloudinarySettings["ApiKey"] ?? "",
+         cloudinarySettings["ApiSecret"] ?? ""
+     ));
+
 
             // JWT Authentication
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
